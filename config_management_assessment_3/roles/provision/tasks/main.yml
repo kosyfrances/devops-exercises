@@ -1,0 +1,14 @@
+---
+- name: Get MongoDB GPG key ID
+  command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+
+- name: Add MongoDB repository reference
+  apt_repository:
+    repo: deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen
+    state: present
+
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Update OS
+  apt: upgrade=dist force=yes

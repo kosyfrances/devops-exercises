@@ -84,7 +84,13 @@ This contains a list of questions to assess a fellows knowledge of the **Network
     ```
 
 12. List differences between IPV4 & IPV6 addresses
+
+    ```
     i. IPv4 addresses are 32 bit length while IPv6 addresses are 128 bit length.
+
     ii. IPv4 addresses are binary numbers represented in decimals while IPv6 addresses are binary numbers represented in hexadecimals.
+
     iii. Broadcast messages are available in IPv4 while Broadcast messages are not available in IPv6. Instead a link-local scope "All nodes" multicast IPv6 address (FF02::1) is used for broadcast similar functionality.
+
     iv. Manual configuration (Static) of IPv4 addresses or DHCP (Dynamic configuration) is required to configure IPv4 addresses while Auto-configuration of addresses is available for IPv6.
+    ```
