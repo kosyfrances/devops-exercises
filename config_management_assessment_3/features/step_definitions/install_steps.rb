@@ -13,9 +13,18 @@ Given(/^I provision it$/) do
 end
 
 When(/^I install MongoDB$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  cmd = "ansible-playbook -i inventory.ini --private-key=.vagrant/machines/meanserver/virtualbox/private_key -u vagrant playbook.mean.yml --tags 'mongodb_setup'"
+
+    output, error, @status = Open3.capture3 "#{cmd}"
 end
 
 Then(/^it should be successful$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(@status.success?).to eq(true)
+end
+
+Then(/^MongoDB should be running$/) do
+  output, error, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'sudo service mongod status'"
+
+  expect(status.success?).to eq(true)
+  expect(output).to match("mongod start/running")
 end

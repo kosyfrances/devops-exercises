@@ -1,0 +1,19 @@
+---
+- name: Check if MongoDB is installed
+  command: bash -c "dpkg --get-selections | grep mongodb-org"
+  register: mongodb_installed
+  ignore_errors: True
+
+- name: Install necessary packages
+  apt: name={{item}} state=present force=yes
+  when: mongodb_installed | failed
+  with_items:
+    - mongodb-org
+    - git
+    - build-essential
+    - openssl
+    - libssl-dev
+    - pkg-config
+
+- name: Start mongoDB
+  service: name=mongod state=started enabled=yes

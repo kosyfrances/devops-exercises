@@ -7,4 +7,4 @@ Feature: Provision and Install
   Scenario: Install MongoDB
     When I install MongoDB
     Then it should be successful
-
+    And MongoDB should be running
