@@ -28,3 +28,7 @@ Then(/^MongoDB should be running$/) do
   expect(status.success?).to eq(true)
   expect(output).to match("mongod start/running")
 end
+
+When(/^I install NodeJs$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end

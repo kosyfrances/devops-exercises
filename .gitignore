@@ -13,4 +13,8 @@ Gemfile.lock
 .rvmrc
 
 # Used by dotenv library to load environment variables.
-# .env
+.env
+
+# ansible
+secret_vars.yml
+*.retry

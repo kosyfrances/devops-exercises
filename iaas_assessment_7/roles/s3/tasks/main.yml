@@ -1,0 +1,9 @@
+---
+- name: Create an empty Server-Side encrypted S3 bucket
+  s3:
+    bucket: "{{ BUCKET_NAME }}"
+    mode: create
+    encrypt: yes
+    permission: public-read
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECRET_KEY }}"

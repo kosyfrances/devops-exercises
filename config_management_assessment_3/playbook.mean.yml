@@ -5,3 +5,4 @@
   become_method: sudo
   roles:
     - { role: mongodb, tags: 'mongodb_setup' }
+    - { role: nodejs, tags: 'nodejs_setup' }

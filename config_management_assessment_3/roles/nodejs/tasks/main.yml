@@ -1,0 +1,11 @@
+---
+- name: Check if NodeJS is installed
+  command: bash -c "dpkg --get-selections | grep nodejs"
+  register: nodejs_installed
+  ignore_errors: True
+
+- name: Install prerequisites
+  apt: name=curl state=present force=yes
+  when: nodejs_installed | failed
+
+- name: Install nodejs
