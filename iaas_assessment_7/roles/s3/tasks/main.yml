@@ -25,3 +25,5 @@
   with_items:
     - { object: index.html, src: s3_site_files/index.html }
     - { object: error.html, src: s3_site_files/error.html }
+
+- name: Configure bucket as static website

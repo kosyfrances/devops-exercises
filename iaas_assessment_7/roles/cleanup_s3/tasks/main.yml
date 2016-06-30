@@ -1,0 +1,7 @@
+---
+- name: Delete an S3 bucket and all its contents
+  s3:
+    bucket: "{{ BUCKET_NAME }}"
+    mode: delete
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECRET_KEY }}"
