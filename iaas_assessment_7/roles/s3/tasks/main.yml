@@ -1,9 +1,27 @@
 ---
-- name: Create an empty Server-Side encrypted S3 bucket
+- name: Create an empty S3 bucket
   s3:
     bucket: "{{ BUCKET_NAME }}"
     mode: create
-    encrypt: yes
     permission: public-read
     aws_access_key: "{{ AWS_ACCESS_KEY }}"
     aws_secret_key: "{{ AWS_SECRET_KEY }}"
+
+- name: Encrypt S3 bucket
+  s3_bucket:
+    name: "{{ BUCKET_NAME }}"
+    policy: "{{ lookup('file','policy.json') }}"
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECRET_KEY }}"
+
+- name: Upload files to S3 bucket
+  s3:
+    bucket: "{{ BUCKET_NAME }}"
+    aws_access_key: "{{ AWS_ACCESS_KEY }}"
+    aws_secret_key: "{{ AWS_SECRET_KEY }}"
+    object: "{{ item.object }}"
+    src: "{{ item.src }}"
+    mode: put
+  with_items:
+    - { object: index.html, src: s3_site_files/index.html }
+    - { object: error.html, src: s3_site_files/error.html }
