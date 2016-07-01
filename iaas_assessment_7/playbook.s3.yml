@@ -1,8 +1,9 @@
 ---
 - hosts: localhost
   connection: local
-  gather_facts: no
+  gather_facts: True
   vars_files:
     - "secret_vars.yml"
   roles:
+    - aws_cli
     - s3

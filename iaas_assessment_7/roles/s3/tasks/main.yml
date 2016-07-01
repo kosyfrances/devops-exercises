@@ -22,8 +22,10 @@
     object: "{{ item.object }}"
     src: "{{ item.src }}"
     mode: put
+    permission: public-read
   with_items:
-    - { object: index.html, src: s3_site_files/index.html }
-    - { object: error.html, src: s3_site_files/error.html }
+    - { object: index.html, src: files/index.html }
+    - { object: error.html, src: files/error.html }
 
 - name: Configure bucket as static website
+  command: "aws s3 website s3://{{ BUCKET_NAME }}/ --index-document index.html --error-document error.html"

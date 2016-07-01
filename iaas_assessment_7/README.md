@@ -7,3 +7,10 @@ An exercise that covers the following operations using Ansible:
   - Creating a VPC with a private & public subnet on Amazon AWS using AWS Cloudformation
   - Launching a machine with the machine image created previously into the private subnet created above
   - Creating an autoscaling group
+
+Requirements to run the playbooks
+* python
+* pip
+* ansible
+* boto
+* aws cli
