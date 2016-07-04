@@ -1,0 +1,9 @@
+---
+- name: Deregister AMI (delete associated snapshots)
+  ec2_ami:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region: "{{ region }}"
+    image_id: "{{ ami_id }}"
+    delete_snapshot: True
+    state: absent

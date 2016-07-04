@@ -1,0 +1,13 @@
+---
+# Basic playbook to create AMI
+- name: Create an AMI from an EC2 instance
+  ec2_ami:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    instance_id: "{{ ec2_instance_id }}"
+    wait: yes
+    name: "{{ ec2_ami_name }}"
+    region: "{{ region }}"
+    tags:
+      Name: "{{ ec2_ami_name }}"
+      Service: KosyTestService

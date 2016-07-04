@@ -1,24 +1,24 @@
 ---
 - name: Create an empty S3 bucket
   s3:
-    bucket: "{{ BUCKET_NAME }}"
+    bucket: "{{ bucket_name }}"
     mode: create
     permission: public-read
-    aws_access_key: "{{ AWS_ACCESS_KEY }}"
-    aws_secret_key: "{{ AWS_SECRET_KEY }}"
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
 
 - name: Encrypt S3 bucket
   s3_bucket:
-    name: "{{ BUCKET_NAME }}"
+    name: "{{ bucket_name }}"
     policy: "{{ lookup('file','policy.json') }}"
-    aws_access_key: "{{ AWS_ACCESS_KEY }}"
-    aws_secret_key: "{{ AWS_SECRET_KEY }}"
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
 
 - name: Upload files to S3 bucket
   s3:
-    bucket: "{{ BUCKET_NAME }}"
-    aws_access_key: "{{ AWS_ACCESS_KEY }}"
-    aws_secret_key: "{{ AWS_SECRET_KEY }}"
+    bucket: "{{ bucket_name }}"
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
     object: "{{ item.object }}"
     src: "{{ item.src }}"
     mode: put
@@ -28,4 +28,4 @@
     - { object: error.html, src: files/error.html }
 
 - name: Configure bucket as static website
-  command: "aws s3 website s3://{{ BUCKET_NAME }}/ --index-document index.html --error-document error.html"
+  command: "aws s3 website s3://{{ bucket_name }}/ --index-document index.html --error-document error.html"

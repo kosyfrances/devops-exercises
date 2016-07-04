@@ -1,0 +1,9 @@
+---
+# Master playbook to deregister an AMI and delete associated snapshot
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_files:
+    - "secret_vars.yml"
+  roles:
+    - cleanup_ami

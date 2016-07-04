@@ -5,6 +5,10 @@
 #   pip:
 #     name: awscli
 #     state: latest
+#     extra_args: "--ignore-installed six"
+  # become: yes
+  # become_method: sudo
+  # become_user: root
 
 - name: enable tab completion for awscli
   lineinfile:
@@ -16,7 +20,7 @@
   file:
     path: "{{ ansible_env.HOME }}/.aws"
     state: directory
-    owner: "{{ ANSIBLE_USER }}"
+    owner: "{{ ansible_user }}"
     mode: 0755
 
 # put together a config file for awscli using templates
@@ -24,5 +28,5 @@
   template:
     src: awscli_config.j2
     dest: "{{ ansible_env.HOME }}/.aws/config"
-    owner: "{{ ANSIBLE_USER }}"
+    owner: "{{ ansible_user }}"
     mode: 0644
