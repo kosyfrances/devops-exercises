@@ -1,0 +1,120 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "CloudFormation template for a generic VPC with a public and private subnets",
+  "Resources": {
+    "VPC": {
+        "Type": "AWS::EC2::VPC",
+        "Properties": {
+            "EnableDnsSupport": "true",
+            "EnableDnsHostnames": "true",
+            "CidrBlock": "{{ VPC_cidrblock }}",
+            "Tags": [{
+                "Key": "Application",
+                "Value": {
+                    "Ref": "AWS::StackName"
+                }
+            }, {
+                "Key": "Network",
+                "Value": "Public"
+            }]
+        }
+    },
+    "PrivateSubnet": {
+        "Type": "AWS::EC2::Subnet",
+        "Properties": {
+            "VpcId": {
+                "Ref": "VPC"
+            },
+            "CidrBlock": "{{ private_subnet_cidrblock }}",
+            "Tags": [{
+                "Key": "Application",
+                "Value": {
+                    "Ref": "AWS::StackName"
+                }
+            }, {
+                "Key": "Network",
+                "Value": "VPN Connected Subnet"
+            }]
+        }
+    },
+    "PublicSubnet": {
+        "Type": "AWS::EC2::Subnet",
+        "Properties": {
+            "VpcId": {
+                "Ref": "VPC"
+            },
+            "CidrBlock": "{{ public_subnet_cidrblock }}",
+            "Tags": [{
+                "Key": "Application",
+                "Value": {
+                    "Ref": "AWS::StackName"
+                }
+            }, {
+                "Key": "Network",
+                "Value": "Public"
+            }]
+        }
+    },
+    "InternetGateway": {
+        "Type": "AWS::EC2::InternetGateway"
+    },
+    "GatewayToInternet": {
+        "Type": "AWS::EC2::VPCGatewayAttachment",
+        "Properties": {
+            "VpcId": {
+                "Ref": "VPC"
+            },
+        "InternetGatewayId": {
+            "Ref": "InternetGateway"
+        }
+      }
+    },
+    "PublicRouteTable": {
+        "Type": "AWS::EC2::RouteTable",
+        "Properties": {
+            "VpcId": {
+                "Ref": "VPC"
+            }
+        }
+    },
+    "PublicRoute": {
+        "Type": "AWS::EC2::Route",
+        "DependsOn": "GatewayToInternet",
+        "Properties": {
+            "RouteTableId": {
+                "Ref": "PublicRouteTable"
+            },
+            "DestinationCidrBlock": "0.0.0.0/0",
+            "GatewayId": {
+                "Ref": "InternetGateway"
+            }
+        }
+    },
+    "PublicSubnetRouteTableAssociation": {
+        "Type": "AWS::EC2::SubnetRouteTableAssociation",
+        "Properties": {
+            "SubnetId": {
+                "Ref": "PublicSubnet"
+            },
+            "RouteTableId": {
+                "Ref": "PublicRouteTable"
+            }
+        }
+    },
+    "PrivateInstance": {
+        "Type": "AWS::EC2::Instance",
+        "Properties": {
+            "InstanceType": "{{ instance_type }}",
+            "ImageId": "{{ ami_id }}",
+            "NetworkInterfaces": [{
+                "AssociatePublicIpAddress": "true",
+                "DeviceIndex": "0",
+                "DeleteOnTermination": "true",
+                "SubnetId": {
+                    "Ref": "PrivateSubnet"
+                }
+            }]
+        }
+    }
+  }
+}

@@ -1,8 +1,8 @@
 ---
+# Master playbook to remove a cloudformation stack
 - hosts: localhost
   connection: local
-  gather_facts: True
   vars_files:
     - "secret_vars.yml"
   roles:
-    - cleanup_ec2
+    - cleanup_cloudformation

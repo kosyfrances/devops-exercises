@@ -1,13 +1,25 @@
 ---
-# Basic playbook to create AMI
-- name: Create an AMI from an EC2 instance
+# Task to create an EBS backed AMI from an EC2 instance
+- name: Launch an EC2 instance
+  ec2:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    instance_type: "{{ instance_type }}"
+    image: "{{ image }}"
+    wait: true
+    region: "{{ region }}"
+  register: ec2
+
+- name: Create an AMI from our EC2 instance
   ec2_ami:
     aws_access_key: "{{ aws_access_key }}"
     aws_secret_key: "{{ aws_secret_key }}"
-    instance_id: "{{ ec2_instance_id }}"
+    instance_id: "{{ item.id }}"
     wait: yes
     name: "{{ ec2_ami_name }}"
     region: "{{ region }}"
     tags:
       Name: "{{ ec2_ami_name }}"
       Service: KosyTestService
+  with_items:
+    - "{{ ec2.instances }}"
