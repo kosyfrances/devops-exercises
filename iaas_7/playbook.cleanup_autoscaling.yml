@@ -4,4 +4,4 @@
   vars_files:
     - "secret_vars.yml"
   roles:
-    - s3
+    - cleanup_autoscaling

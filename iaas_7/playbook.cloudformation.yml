@@ -5,4 +5,3 @@
     - "secret_vars.yml"
   roles:
     - cloudformation
-

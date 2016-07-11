@@ -1,7 +1,8 @@
 ---
+# Deletes autoscale group and launch configuration
 - hosts: localhost
   connection: local
   vars_files:
     - "secret_vars.yml"
   roles:
-    - s3
+    - autoscale_group

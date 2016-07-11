@@ -1,0 +1,16 @@
+- name: Delete autoscaling group
+  ec2_asg:
+    name: "{{ autoscaling_group_name }}"
+    region: "{{ region }}"
+    vpc_zone_identifier: [ "{{ vpc_subnet }}" ]
+    state: absent
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+
+- name: Delete launch configuration
+  ec2_lc:
+    name: "{{ autoscale_launch_config_name }}"
+    region: "{{ region }}"
+    state: absent
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"

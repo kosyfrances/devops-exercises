@@ -1,0 +1,21 @@
+- name: Create autoscaling launch configuration
+  ec2_lc:
+    name: "{{ autoscale_launch_config_name }}"
+    image_id: "{{ image }}"
+    region: "{{ region }}"
+    instance_type: "{{ instance_type }}"
+    assign_public_ip: yes
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+
+- name: Create autoscaling group
+  ec2_asg:
+    name: "{{ autoscaling_group_name }}"
+    launch_config_name: "{{ autoscale_launch_config_name }}"
+    region: "{{ region }}"
+    min_size: 1
+    max_size: 10
+    desired_capacity: 1
+    vpc_zone_identifier: [ "{{ vpc_subnet }}" ]
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
