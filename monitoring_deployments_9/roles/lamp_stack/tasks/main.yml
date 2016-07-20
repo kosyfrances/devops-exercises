@@ -1,0 +1,12 @@
+- name: Check if apache is installed
+  command: bash -c "dpkg --get-selections | grep apache2"
+  register: apache_installed
+  ignore_errors: True
+  tags:
+    - apache_setup
+
+- name: Install apache
+  apt: name=apache2 state=present
+  when: apache_installed|failed
+  tags:
+    - apache_setup
