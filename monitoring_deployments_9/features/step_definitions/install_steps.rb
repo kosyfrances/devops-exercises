@@ -34,3 +34,9 @@ And(/^it should be accepting connections on port (\d+)$/) do |port|
 
   expect(status.success?).to eq(true)
 end
+
+When(/^I install MySQL$/) do
+  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'mysql_setup'"
+
+  _, _, @status = Open3.capture3 "#{cmd}"
+end

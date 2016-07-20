@@ -10,3 +10,22 @@
   when: apache_installed|failed
   tags:
     - apache_setup
+
+- name: Check if mysql is installed
+  command: bash -c "dpkg --get-selections | grep {{ item }}"
+  register: mysql_installed
+  ignore_errors: True
+  with_items:
+    - mysql-server
+    - php5-mysql
+  tags:
+    - mysql_setup
+
+- name: Install mysql
+  apt: name={{ item }} state=present
+  when: mysql_installed|failed
+  with_items:
+    - mysql-server
+    - php5-mysql
+  tags:
+    - mysql_setup

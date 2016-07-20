@@ -9,3 +9,7 @@ Feature: Provision and install
     Then it should be successful
     And apache should be running
     And it should be accepting connections on port 80
+
+  Scenario: Install MySQL
+    When I install MySQL
+    Then it should be successful
