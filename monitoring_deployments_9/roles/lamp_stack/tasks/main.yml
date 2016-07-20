@@ -1,3 +1,4 @@
+---
 - name: Check if apache is installed
   command: bash -c "dpkg --get-selections | grep apache2"
   register: apache_installed
@@ -29,3 +30,24 @@
     - php5-mysql
   tags:
     - mysql_setup
+
+- name: Check if php is installed
+  command: bash -c "dpkg --get-selections | grep {{ item }}"
+  register: php_installed
+  ignore_errors: True
+  with_items:
+    - php5
+    - libapache2-mod-php5
+    - php5-mcrypt
+  tags:
+    - php_setup
+
+- name: Install php
+  apt: name={{ item }} state=present
+  when: php_installed|failed
+  with_items:
+    - php5
+    - libapache2-mod-php5
+    - php5-mcrypt
+  tags:
+    - php_setup

@@ -1,0 +1,10 @@
+---
+- name: Create nagios group
+  group: name={{ nagios_group }} state=present
+  tags:
+    - nagios_user_setup
+
+- name: Create nagios user and add to group
+  user: name={{ nagios_user }} group={{ nagios_group }}
+  tags:
+    - nagios_user_setup

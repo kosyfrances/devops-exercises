@@ -22,11 +22,21 @@ Then(/^it should be successful$/) do
   expect(@status.success?).to eq(true)
 end
 
-And(/^apache should be running$/) do
-  output, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'sudo service apache2 status'"
+And(/^([^"]*) should be running$/) do |pkg|
+    case pkg
+    when 'apache2', 'mysql'
+      output, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'sudo service #{pkg} status'"
+      expect(status.success?).to eq(true)
 
-  expect(status.success?).to eq(true)
-  expect(output).to match("apache2 is running")
+      if pkg == 'mysql'
+        expect(output).to match("#{pkg} start/running")
+      else
+        expect(output).to match("#{pkg} is running")
+      end
+
+    else
+        raise 'Not Implemented'
+    end
 end
 
 And(/^it should be accepting connections on port (\d+)$/) do |port|
@@ -39,4 +49,22 @@ When(/^I install MySQL$/) do
   cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'mysql_setup'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
+end
+
+When(/^I install PHP$/) do
+  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'php_setup'"
+
+  _, _, @status = Open3.capture3 "#{cmd}"
+end
+
+When(/^I create user and group$/) do
+  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'nagios_user_setup'"
+
+  _, _, @status = Open3.capture3 "#{cmd}"
+end
+
+Then(/^user should exist$/) do
+  _, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'getent passwd nagios'"
+
+  expect(status.success?).to eq(true)
 end
