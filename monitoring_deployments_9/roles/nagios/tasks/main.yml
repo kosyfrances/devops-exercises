@@ -8,3 +8,32 @@
   user: name={{ nagios_user }} group={{ nagios_group }}
   tags:
     - nagios_user_setup
+
+- name: Check if build dependencies are installed
+  command: bash -c "dpkg --get-selections | grep {{ item }}"
+  register: build_installed
+  ignore_errors: True
+  with_items:
+    - build-essential
+    - libgd2-xpm-dev
+    - openssl
+    - libssl-dev
+    - xinetd
+    - apache2-utils
+    - unzip
+  tags:
+    - build_dependencies
+
+- name: Install build dependencies
+  apt: name={{ item }} state=present
+  when: build_installed|failed
+  with_items:
+    - build-essential
+    - libgd2-xpm-dev
+    - openssl
+    - libssl-dev
+    - xinetd
+    - apache2-utils
+    - unzip
+  tags:
+    - build_dependencies

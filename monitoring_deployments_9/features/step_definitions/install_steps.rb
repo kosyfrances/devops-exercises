@@ -63,8 +63,14 @@ When(/^I create user and group$/) do
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
-Then(/^user should exist$/) do
+And(/^user should exist$/) do
   _, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'getent passwd nagios'"
 
   expect(status.success?).to eq(true)
+end
+
+When(/^I install build dependencies$/) do
+  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'build_dependencies'"
+
+  _, _, @status = Open3.capture3 "#{cmd}"
 end

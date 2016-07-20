@@ -23,3 +23,7 @@ Feature: Provision and install
     When I create user and group
     Then it should be successful
     And user should exist
+
+  Scenario: Install build dependencies
+    When I install build dependencies
+    Then it should be successful
