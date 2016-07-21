@@ -3,8 +3,11 @@
   user: "{{ host_user }}"
   become: yes
   become_method: sudo
-  vars_files:
-    - secret_vars.yml
+  vars:
+    host_user: vagrant
+    nagcmd_group: nagcmd
+    nagios_group: nagios
+    nagios_user: nagios
   roles:
     - lamp_stack
     - nagios

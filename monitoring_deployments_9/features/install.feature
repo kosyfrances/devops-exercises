@@ -27,3 +27,15 @@ Feature: Provision and install
   Scenario: Install build dependencies
     When I install build dependencies
     Then it should be successful
+
+  Scenario: Install Nagios Core
+    When I install Nagios core
+    Then it should be successful
+
+  Scenario: Add wwwdata user to nagios group
+    When I add wwwdata user to nagios group
+    Then it should be successful
+
+  Scenario: Install Nagios plugins
+    When I install Nagios plugins
+    Then it should be successful

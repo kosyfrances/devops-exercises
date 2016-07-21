@@ -1,11 +1,14 @@
 ---
-- name: Create nagios group
-  group: name={{ nagios_group }} state=present
+- name: Create nagcmd group
+  group: name="{{ item }}" state=present
+  with_items:
+    - "{{ nagcmd_group }}"
+    - "{{ nagios_group }}"
   tags:
     - nagios_user_setup
 
 - name: Create nagios user and add to group
-  user: name={{ nagios_user }} group={{ nagios_group }}
+  user: name="{{ nagios_user }}" group="{{ nagcmd_group }}"
   tags:
     - nagios_user_setup
 
@@ -25,7 +28,7 @@
     - build_dependencies
 
 - name: Install build dependencies
-  apt: name={{ item }} state=present
+  apt: name="{{ item }}" state=present
   when: build_installed|failed
   with_items:
     - build-essential
@@ -37,3 +40,63 @@
     - unzip
   tags:
     - build_dependencies
+
+- name: Download and extract Nagios Core
+  unarchive:
+    src: https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.1.1.tar.gz
+    dest: "/home/{{ host_user }}"
+    copy: no
+  tags:
+    - nagios_core_setup
+
+- name: Build nagios
+  command: ./configure --with-nagios-group="{{ nagios_group }}" --with-command-group="{{ nagcmd_group }}"
+  args:
+    chdir: "/home/{{ host_user }}/nagios-4.1.1"
+  tags:
+    - nagios_core_setup
+
+- name: Install nagios, init scripts and sample configuration files
+  command: "{{ item }}"
+  args:
+    chdir: "/home/{{ host_user }}/nagios-4.1.1"
+  with_items:
+    - make clean
+    - make all
+    - make install
+    - make install-commandmode
+    - make install-init
+    - make install-config
+    - /usr/bin/install -c -m 644 sample-config/httpd.conf /etc/apache2/sites-available/nagios.conf
+  tags:
+    - nagios_core_setup
+
+- name: Add www-data to nagios group
+  user: name=www-data group="{{ nagcmd_group }}"
+  tags:
+    - add_wwwdata_nagios
+
+- name: Download and extract Nagios plugins
+  unarchive:
+    src: http://nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz
+    dest: "/home/{{ host_user }}"
+    copy: no
+  tags:
+    - nagios_plugins_setup
+
+- name: Configure nagios plugins
+  command: ./configure --with-nagios-user="{{ nagios_user }}" --with-nagios-group="{{ nagios_group }}" --with-openssl
+  args:
+    chdir: "/home/{{ host_user }}/nagios-plugins-2.1.1"
+  tags:
+    - nagios_plugins_setup
+
+- name: Compile and install nagios plugins
+  command: "{{ item }}"
+  args:
+    chdir: "/home/{{ host_user }}/nagios-plugins-2.1.1"
+  with_items:
+    - make
+    - make install
+  tags:
+    - nagios_plugins_setup

@@ -74,3 +74,23 @@ When(/^I install build dependencies$/) do
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
+
+When(/^I install Nagios core$/) do
+  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'nagios_core_setup'"
+
+  _, _, @status = Open3.capture3 "#{cmd}"
+end
+
+When(/^I add wwwdata user to nagios group$/) do
+  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'add_wwwdata_nagios'"
+
+  _, _, @status = Open3.capture3 "#{cmd}"
+end
+
+When(/^I install Nagios plugins$/) do
+  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'nagios_plugins_setup'"
+
+  output, error, @status = Open3.capture3 "#{cmd}"
+  puts output
+  puts error
+end
