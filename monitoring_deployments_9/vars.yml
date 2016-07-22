@@ -1,3 +1,4 @@
 ---
 host_user: vagrant
 server_ip: 192.168.33.10
+nagios_email: nagios@example.com

@@ -100,13 +100,13 @@ When(/^I install NRPE$/) do
 end
 
 Then(/^xinetd startup script should be updated$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'xinetd_script_setup' -vvv"
+  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'xinetd_script_setup'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I edit Nagios configuration$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'nagios_configure' -vvv"
+  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'nagios_configure'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
@@ -115,4 +115,10 @@ And(/^a server configuration directory should exist$/) do
   _, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'test -d /usr/local/nagios/etc/servers'"
 
   expect(status.success?).to eq(true)
+end
+
+When(/^I configure nagios contacts$/) do
+  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'nagios_contacts_configure'"
+
+  _, _, @status = Open3.capture3 "#{cmd}"
 end

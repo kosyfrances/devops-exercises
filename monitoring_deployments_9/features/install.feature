@@ -50,3 +50,7 @@ Feature: Provision and install
     When I edit Nagios configuration
     Then it should be successful
     And a server configuration directory should exist
+
+  Scenario: Configure Nagios Contacts
+    When I configure nagios contacts
+    Then it should be successful

@@ -150,3 +150,10 @@
   file: path=/usr/local/nagios/etc/servers state=directory
   tags:
     - nagios_configure
+
+- name: Configure nagios contacts
+  template: src=contacts.cfg.j2 dest=/usr/local/nagios/etc/objects/contacts.cfg
+  tags:
+    - nagios_contacts_configure
+
+- name: Configure check_nrpe Command
