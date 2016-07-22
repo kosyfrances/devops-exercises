@@ -39,3 +39,13 @@ Feature: Provision and install
   Scenario: Install Nagios plugins
     When I install Nagios plugins
     Then it should be successful
+
+  Scenario: Install NRPE
+    When I install NRPE
+    Then it should be successful
+    And xinetd startup script should be updated
+    And xinetd should be running
+
+  Scenario: Configure Nagios
+    When I configure Nagios
+    Then it should be successful

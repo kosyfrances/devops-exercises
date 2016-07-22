@@ -100,3 +100,38 @@
     - make install
   tags:
     - nagios_plugins_setup
+
+- name: Download and extract NRPE
+  unarchive:
+    src: http://downloads.sourceforge.net/project/nagios/nrpe-2.x/nrpe-2.15/nrpe-2.15.tar.gz
+    dest: "/home/{{ host_user }}"
+    copy: no
+  tags:
+    - nrpe_setup
+
+- name: Configure NRPE
+  command: ./configure --enable-command-args --with-nagios-user="{{ nagios_user }}" --with-nagios-group="{{ nagios_group }}" --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/x86_64-linux-gnu
+  args:
+    chdir: "/home/{{ host_user }}/nrpe-2.15"
+  tags:
+    - nrpe_setup
+
+- name: Build and install NRPE and its xinetd startup script
+  command: "{{ item }}"
+  args:
+    chdir: "/home/{{ host_user }}/nrpe-2.15"
+  with_items:
+    - make clean
+    - make all
+    - make install
+    - make install-xinetd
+    - make install-daemon-config
+  tags:
+    - nrpe_setup
+
+- name: Modify xinetd startup script
+  template: src=nrpe.j2 dest=/etc/xinetd.d/nrpe
+  notify:
+    - restart xinetd
+  tags:
+    - xinetd_script_setup

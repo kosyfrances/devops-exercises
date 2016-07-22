@@ -3,7 +3,7 @@
   user: "{{ host_user }}"
   become: yes
   become_method: sudo
-  vars:
-    host_user: vagrant
+  vars_files:
+    - vars.yml
   roles:
     - provision

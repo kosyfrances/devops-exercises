@@ -4,10 +4,11 @@
   become: yes
   become_method: sudo
   vars:
-    host_user: vagrant
     nagcmd_group: nagcmd
     nagios_group: nagios
     nagios_user: nagios
+  vars_files:
+    - vars.yml
   roles:
     - lamp_stack
     - nagios

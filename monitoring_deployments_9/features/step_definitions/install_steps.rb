@@ -24,14 +24,14 @@ end
 
 And(/^([^"]*) should be running$/) do |pkg|
     case pkg
-    when 'apache2', 'mysql'
+    when 'apache2', 'mysql', 'xinetd'
       output, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'sudo service #{pkg} status'"
       expect(status.success?).to eq(true)
 
-      if pkg == 'mysql'
-        expect(output).to match("#{pkg} start/running")
-      else
+      if pkg == 'apache2'
         expect(output).to match("#{pkg} is running")
+      else
+        expect(output).to match("#{pkg} start/running")
       end
 
     else
@@ -90,7 +90,23 @@ end
 When(/^I install Nagios plugins$/) do
   cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'nagios_plugins_setup'"
 
-  output, error, @status = Open3.capture3 "#{cmd}"
-  puts output
-  puts error
+  _, _, @status = Open3.capture3 "#{cmd}"
+end
+
+When(/^I install NRPE$/) do
+  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'nrpe_setup'"
+
+  _, _, @status = Open3.capture3 "#{cmd}"
+end
+
+Then(/^xinetd startup script should be updated$/) do
+  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'xinetd_script_setup' -vvv"
+
+  _, _, @status = Open3.capture3 "#{cmd}"
+end
+
+When(/^I configure Nagios$/) do
+  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'nagios_configure'"
+
+  _, _, @status = Open3.capture3 "#{cmd}"
 end
