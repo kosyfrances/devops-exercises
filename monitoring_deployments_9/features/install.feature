@@ -54,3 +54,7 @@ Feature: Provision and install
   Scenario: Configure Nagios Contacts
     When I configure nagios contacts
     Then it should be successful
+
+  Scenario: Configure check_nrpe Command
+    When I configure check_nrpe command
+    Then it should be successful

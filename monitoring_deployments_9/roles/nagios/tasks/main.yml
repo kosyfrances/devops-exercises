@@ -157,3 +157,14 @@
     - nagios_contacts_configure
 
 - name: Configure check_nrpe Command
+  blockinfile:
+    dest: /usr/local/nagios/etc/objects/commands.cfg
+    state: present
+    insertafter: EOF
+    block: |
+      define command{
+              command_name check_nrpe
+              command_line $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
+      }
+  tags:
+    - check_nrpe_configure

@@ -122,3 +122,9 @@ When(/^I configure nagios contacts$/) do
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
+
+When(/^I configure check_nrpe command$/) do
+  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'check_nrpe_configure'"
+
+  _, _, @status = Open3.capture3 "#{cmd}"
+end
