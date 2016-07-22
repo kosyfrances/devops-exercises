@@ -46,6 +46,7 @@ Feature: Provision and install
     And xinetd startup script should be updated
     And xinetd should be running
 
-  Scenario: Configure Nagios
-    When I configure Nagios
+  Scenario: Edit Nagios configuration
+    When I edit Nagios configuration
     Then it should be successful
+    And a server configuration directory should exist

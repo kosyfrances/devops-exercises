@@ -135,3 +135,18 @@
     - restart xinetd
   tags:
     - xinetd_script_setup
+
+- name: Edit Nagios Configuration
+  lineinfile:
+    dest: /usr/local/nagios/etc/nagios.cfg
+    state: present
+    regexp: "^#cfg_dir=/usr/local/nagios/etc/servers$"
+    line: "cfg_dir=/usr/local/nagios/etc/servers"
+    backrefs: yes
+  tags:
+    - nagios_configure
+
+- name: Create directory to store configuration file for each server to be monitored
+  file: path=/usr/local/nagios/etc/servers state=directory
+  tags:
+    - nagios_configure

@@ -105,8 +105,14 @@ Then(/^xinetd startup script should be updated$/) do
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
-When(/^I configure Nagios$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'nagios_configure'"
+When(/^I edit Nagios configuration$/) do
+  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'nagios_configure' -vvv"
 
   _, _, @status = Open3.capture3 "#{cmd}"
+end
+
+And(/^a server configuration directory should exist$/) do
+  _, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'test -d /usr/local/nagios/etc/servers'"
+
+  expect(status.success?).to eq(true)
 end
