@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: nagiosserver
   user: "{{ host_user }}"
   become: yes
   become_method: sudo
@@ -13,4 +13,4 @@
     - secret_vars.yml
   roles:
     - lamp_stack
-    - nagios
+    - nagios_server

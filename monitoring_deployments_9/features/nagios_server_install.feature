@@ -1,7 +1,7 @@
-Feature: Provision and install
+Feature: Provision and install Nagios server
 
   Background:
-    Given I have a running server
+    Given I have a running nagios server
     And I provision it
 
   Scenario: Install Apache
