@@ -58,3 +58,9 @@ Feature: Provision and install
   Scenario: Configure check_nrpe Command
     When I configure check_nrpe command
     Then it should be successful
+
+  Scenario: Configure apache
+    When I configure apache
+    Then it should be successful
+    And nagios should be running
+    And apache2 should be running

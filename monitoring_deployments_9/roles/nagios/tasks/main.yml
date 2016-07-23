@@ -168,3 +168,38 @@
       }
   tags:
     - check_nrpe_configure
+
+- name: Enable the Apache rewrite and cgi modules
+  command: "{{ item }}"
+  with_items:
+    - a2enmod rewrite
+    - a2enmod cgi
+  tags:
+    - apache_configure
+
+- name: Create admin user that can access the Nagios web interface
+  htpasswd:
+    path: /usr/local/nagios/etc/htpasswd.users
+    name: "{{ nagiosadmin_user }}"
+    password: "{{ nagiosadmin_user_password }}"
+  tags:
+    - apache_configure
+
+- name: Symlink nagios.conf to sites-enabled directory
+  file:
+    src: /etc/apache2/sites-available/nagios.conf
+    dest: /etc/apache2/sites-enabled/nagios.conf
+    state: link
+  notify:
+    - start nagios
+    - restart apache
+  tags:
+    - apache_configure
+
+- name: Enable nagios to start on server boot
+  file:
+    src: /etc/init.d/nagios
+    dest: /etc/rcS.d/S99nagios
+    state: link
+  tags:
+    - apache_configure

@@ -24,12 +24,12 @@ end
 
 And(/^([^"]*) should be running$/) do |pkg|
     case pkg
-    when 'apache2', 'mysql', 'xinetd'
+    when 'apache2', 'mysql', 'xinetd', 'nagios'
       output, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'sudo service #{pkg} status'"
       expect(status.success?).to eq(true)
 
-      if pkg == 'apache2'
-        expect(output).to match("#{pkg} is running")
+      if ['apache2', 'nagios'].include? pkg
+        expect(output.chomp).to match(Regexp.new("#{pkg}\s(\\(\\w+\s\\d+\\)\s)?is\srunning(\.+)?"))
       else
         expect(output).to match("#{pkg} start/running")
       end
@@ -125,6 +125,12 @@ end
 
 When(/^I configure check_nrpe command$/) do
   cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'check_nrpe_configure'"
+
+  _, _, @status = Open3.capture3 "#{cmd}"
+end
+
+When(/^I configure apache$/) do
+  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios.yml --tags 'apache_configure' -vvv"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end

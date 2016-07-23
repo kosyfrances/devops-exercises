@@ -1,3 +1,6 @@
 ---
 - name: Update apt cache
   apt: update_cache=yes
+
+- name: Install python-passlib
+  apt: name=python-passlib state=present
