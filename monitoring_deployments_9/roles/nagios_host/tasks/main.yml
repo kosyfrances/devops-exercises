@@ -1,0 +1,19 @@
+---
+- name: Check if Nagios plugins and NRPE are installed
+  command: bash -c "dpkg --get-selections | grep {{ item }}"
+  register: nagios_plugins_installed
+  ignore_errors: True
+  with_items:
+    - nagios-plugins
+    - nagios-nrpe-server
+  tags:
+    - nagios_plugins_install
+
+- name: Install Nagios plugins and NRPE
+  apt: name="{{ item }}" state=present
+  when: nagios_plugins_installed|failed
+  with_items:
+    - nagios-plugins
+    - nagios-nrpe-server
+  tags:
+    - nagios_plugins_install
