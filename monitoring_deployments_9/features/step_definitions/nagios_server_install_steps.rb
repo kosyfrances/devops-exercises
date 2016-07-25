@@ -1,13 +1,13 @@
 require 'open3'
 
-Given(/^I have a running nagios server$/) do
-  _, _, status = Open3.capture3 "unset RUBYLIB; vagrant reload nagiosserver"
+Given(/^I have a running server ([^"]*)$/) do |server|
+  _, _, status = Open3.capture3 "unset RUBYLIB; vagrant reload #{server}"
 
   expect(status.success?).to eq(true)
 end
 
-Given(/^I provision it$/) do
-  _, _, status = Open3.capture3 "unset RUBYLIB; vagrant provision nagiosserver"
+Given(/^I provision it ([^"]*)$/) do |server|
+  _, _, status = Open3.capture3 "unset RUBYLIB; vagrant provision #{server}"
 
   expect(status.success?).to eq(true)
 end
@@ -22,14 +22,16 @@ Then(/^it should be successful$/) do
   expect(@status.success?).to eq(true)
 end
 
-And(/^([^"]*) should be running$/) do |pkg|
+And(/^([^"]*) should be running on ([^"]*)$/) do |pkg, server|
     case pkg
-    when 'apache2', 'mysql', 'xinetd', 'nagios'
-      output, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh nagiosserver -c 'sudo service #{pkg} status'"
+    when 'apache2', 'mysql', 'xinetd', 'nagios', 'nagios-nrpe-server'
+      output, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh #{server} -c 'sudo service #{pkg} status'"
       expect(status.success?).to eq(true)
 
       if ['apache2', 'nagios'].include? pkg
         expect(output.chomp).to match(Regexp.new("#{pkg}\s(\\(\\w+\s\\d+\\)\s)?is\srunning(\.+)?"))
+      elsif pkg == 'nagios-nrpe-server'
+        expect(output).to match("nagios-nrpe is running")
       else
         expect(output).to match("#{pkg} start/running")
       end

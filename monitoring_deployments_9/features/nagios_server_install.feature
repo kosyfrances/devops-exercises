@@ -1,19 +1,19 @@
 Feature: Provision and install Nagios server
 
   Background:
-    Given I have a running nagios server
-    And I provision it
+    Given I have a running server nagiosserver
+    And I provision it nagiosserver
 
   Scenario: Install Apache
     When I install Apache
     Then it should be successful
-    And apache2 should be running
+    And apache2 should be running on nagiosserver
     And it should be accepting connections on port 80
 
   Scenario: Install MySQL
     When I install MySQL
     Then it should be successful
-    And mysql should be running
+    And mysql should be running on nagiosserver
 
   Scenario: Install PHP
     When I install PHP
@@ -44,7 +44,7 @@ Feature: Provision and install Nagios server
     When I install NRPE
     Then it should be successful
     And xinetd startup script should be updated
-    And xinetd should be running
+    And xinetd should be running on nagiosserver
 
   Scenario: Edit Nagios configuration
     When I edit Nagios configuration
@@ -62,5 +62,5 @@ Feature: Provision and install Nagios server
   Scenario: Configure apache
     When I configure apache
     Then it should be successful
-    And nagios should be running
-    And apache2 should be running
+    And nagios should be running on nagiosserver
+    And apache2 should be running on nagiosserver

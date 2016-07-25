@@ -17,3 +17,8 @@
     - nagios-nrpe-server
   tags:
     - nagios_plugins_install
+
+- name: Configure allowed hosts and allowed NRPE commands
+  template: src=nrpe.cfg.j2 dest=/etc/nagios/nrpe.cfg
+  notify:
+    - restart nrpe
