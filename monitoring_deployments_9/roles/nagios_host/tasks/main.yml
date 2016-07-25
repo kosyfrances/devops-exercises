@@ -22,3 +22,5 @@
   template: src=nrpe.cfg.j2 dest=/etc/nagios/nrpe.cfg
   notify:
     - restart nrpe
+  tags:
+    - allowed_host_configure
