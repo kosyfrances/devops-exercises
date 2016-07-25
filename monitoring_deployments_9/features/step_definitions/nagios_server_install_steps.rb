@@ -13,7 +13,7 @@ Given(/^I provision it$/) do
 end
 
 When(/^I install Apache$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios_server.yml --tags 'apache_setup'"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.nagios_server.yml --tags 'apache_setup'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
@@ -46,19 +46,19 @@ And(/^it should be accepting connections on port (\d+)$/) do |port|
 end
 
 When(/^I install MySQL$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios_server.yml --tags 'mysql_setup'"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.nagios_server.yml --tags 'mysql_setup'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I install PHP$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios_server.yml --tags 'php_setup'"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.nagios_server.yml --tags 'php_setup'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I create user and group$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios_server.yml --tags 'nagios_user_setup'"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.nagios_server.yml --tags 'nagios_user_setup'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
@@ -70,43 +70,43 @@ And(/^user should exist$/) do
 end
 
 When(/^I install build dependencies$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios_server.yml --tags 'build_dependencies'"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.nagios_server.yml --tags 'build_dependencies'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I install Nagios core$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios_server.yml --tags 'nagios_core_setup'"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.nagios_server.yml --tags 'nagios_core_setup'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I add wwwdata user to nagios group$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios_server.yml --tags 'add_wwwdata_nagios'"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.nagios_server.yml --tags 'add_wwwdata_nagios'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I install Nagios plugins$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios_server.yml --tags 'nagios_plugins_setup'"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.nagios_server.yml --tags 'nagios_plugins_setup'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I install NRPE$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios_server.yml --tags 'nrpe_setup'"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.nagios_server.yml --tags 'nrpe_setup'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
 Then(/^xinetd startup script should be updated$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios_server.yml --tags 'xinetd_script_setup'"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.nagios_server.yml --tags 'xinetd_script_setup'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I edit Nagios configuration$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios_server.yml --tags 'nagios_configure'"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.nagios_server.yml --tags 'nagios_configure'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
@@ -118,19 +118,19 @@ And(/^a server configuration directory should exist$/) do
 end
 
 When(/^I configure nagios contacts$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios_server.yml --tags 'nagios_contacts_configure'"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.nagios_server.yml --tags 'nagios_contacts_configure'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I configure check_nrpe command$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios_server.yml --tags 'check_nrpe_configure'"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.nagios_server.yml --tags 'check_nrpe_configure'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I configure apache$/) do
-  cmd = "ansible-playbook -i local_inventory.ini --private-key=.vagrant/machines/nagiosserver/virtualbox/private_key -u vagrant playbook.nagios_server.yml --tags 'apache_configure'"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.nagios_server.yml --tags 'apache_configure'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
