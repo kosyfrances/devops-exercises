@@ -136,3 +136,9 @@ When(/^I configure apache$/) do
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
+
+When(/^I add host to nagios configuration$/) do
+  cmd = "ansible-playbook -i local_inventory.ini playbook.nagios_server.yml --tags 'add_host_to_nagios'"
+
+  _, _, @status = Open3.capture3 "#{cmd}"
+end

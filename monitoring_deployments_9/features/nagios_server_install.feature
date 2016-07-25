@@ -64,3 +64,8 @@ Feature: Provision and install Nagios server
     Then it should be successful
     And nagios should be running on nagiosserver
     And apache2 should be running on nagiosserver
+
+  Scenario: Add Host to Nagios Configuration
+    When I add host to nagios configuration
+    Then it should be successful
+    And nagios should be running on nagiosserver

@@ -1,0 +1,7 @@
+---
+- name: Add host to nagios configuration
+  template: src=nagios_host.cfg.j2 dest="/usr/local/nagios/etc/servers/{{ nagios_host_name }}.cfg"
+  notify:
+    - reload nagios
+  tags:
+    - add_host_to_nagios
