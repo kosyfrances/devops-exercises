@@ -5,7 +5,7 @@
 - name: Launch nagios server and host EC2 instances
   cloudformation:
     stack_name: "{{ cloudformation_stack_name }}"
-    state: "present"
+    state: present
     region: "{{ ec2_region }}"
     disable_rollback: true
     aws_access_key: "{{ aws_access_key }}"

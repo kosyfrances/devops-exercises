@@ -14,3 +14,4 @@ ec2_region: us-west-2
 availability_zone: us-west-2a
 cloudformation_stack_name: EC2
 cloudformation_template: roles/ec2/templates/cloudformation.json
+key_pair_name: cosy-devops-uswest2

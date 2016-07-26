@@ -5,7 +5,8 @@
             "Properties" : {
                 "AvailabilityZone" : "{{ availability_zone }}",
                 "ImageId" : "{{ ubuntu_ec2_image }}",
-                "InstanceType" : "{{ instance_type }}"
+                "InstanceType" : "{{ instance_type }}",
+                "KeyName" : "{{ key_pair_name }}"
             }
         },
         "NagiosHost": {
@@ -13,7 +14,8 @@
             "Properties" : {
               "AvailabilityZone" : "{{ availability_zone }}",
               "ImageId" : "{{ mean_ec2_image }}",
-              "InstanceType" : "{{ instance_type }}"
+              "InstanceType" : "{{ instance_type }}",
+              "KeyName" : "{{ key_pair_name }}"
             }
         }
     }

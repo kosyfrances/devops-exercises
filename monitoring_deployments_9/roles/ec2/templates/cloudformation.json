@@ -5,7 +5,8 @@
             "Properties" : {
                 "AvailabilityZone" : "us-west-2a",
                 "ImageId" : "ami-d732f0b7",
-                "InstanceType" : "t2.micro"
+                "InstanceType" : "t2.micro",
+                "KeyName" : "cosy-devops-uswest2"
             }
         },
         "NagiosHost": {
@@ -13,7 +14,8 @@
             "Properties" : {
               "AvailabilityZone" : "us-west-2a",
               "ImageId" : "ami-b1f23ed1",
-              "InstanceType" : "t2.micro"
+              "InstanceType" : "t2.micro",
+              "KeyName" : "cosy-devops-uswest2"
             }
         }
     }
