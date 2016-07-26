@@ -1,8 +1,6 @@
 ---
-host_user: vagrant
-server_ip: 192.168.33.10
-host_ip: 192.168.33.11
-nagios_email: nagios@example.com
+host_user: ubuntu
+bitnami_host_name: bitnami
 root_file_system: /dev/sda1
 nagios_host_name: nagioshost
 nagios_host_description: Host to be monitored by nagios
