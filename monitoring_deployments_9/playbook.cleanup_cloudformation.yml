@@ -1,0 +1,9 @@
+---
+# Master playbook to remove a cloudformation stack
+- hosts: localhost
+  connection: local
+  vars_files:
+    - secret_vars.yml
+    - vars.yml
+  roles:
+    - cleanup_cloudformation
