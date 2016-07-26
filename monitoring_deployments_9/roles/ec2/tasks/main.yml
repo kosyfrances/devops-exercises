@@ -1,0 +1,15 @@
+---
+- name: Convert cloudformation template from j2 to json
+  local_action: template src="{{ cloudformation_template }}.j2" dest="{{ cloudformation_template }}"
+
+- name: Launch nagios server and host EC2 instances
+  cloudformation:
+    stack_name: "{{ cloudformation_stack_name }}"
+    state: "present"
+    region: "{{ ec2_region }}"
+    disable_rollback: true
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    template: "{{ cloudformation_template }}"
+    tags:
+      Stack: "EC2-cloudformation"

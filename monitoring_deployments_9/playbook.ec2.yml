@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - vars.yml
+    - secret_vars.yml
+  roles:
+    - ec2

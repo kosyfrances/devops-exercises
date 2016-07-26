@@ -1,0 +1,20 @@
+{
+    "Resources": {
+        "NagiosServer": {
+            "Type" : "AWS::EC2::Instance",
+            "Properties" : {
+                "AvailabilityZone" : "us-west-2a",
+                "ImageId" : "ami-d732f0b7",
+                "InstanceType" : "t2.micro"
+            }
+        },
+        "NagiosHost": {
+            "Type" : "AWS::EC2::Instance",
+            "Properties" : {
+              "AvailabilityZone" : "us-west-2a",
+              "ImageId" : "ami-b1f23ed1",
+              "InstanceType" : "t2.micro"
+            }
+        }
+    }
+}
