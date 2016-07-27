@@ -1,6 +1,6 @@
 ---
 - hosts: nagioshost
-  remote_user: "{{ bitnami_host_name }}"
+  remote_user: "{{ host_user }}"
   become: yes
   become_method: sudo
   vars_files:

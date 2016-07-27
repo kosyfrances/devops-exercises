@@ -13,7 +13,7 @@
             "Type" : "AWS::EC2::Instance",
             "Properties" : {
               "AvailabilityZone" : "{{ availability_zone }}",
-              "ImageId" : "{{ mean_ec2_image }}",
+              "ImageId" : "{{ ubuntu_ec2_image }}",
               "InstanceType" : "{{ instance_type }}",
               "KeyName" : "{{ key_pair_name }}"
             }

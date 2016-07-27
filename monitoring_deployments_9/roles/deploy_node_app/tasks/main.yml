@@ -1,20 +1,14 @@
 ---
 - name: Create mean app directory
-  file: path="/home/{{ bitnami_host_name }}/apps/doc-cache" state=directory
+  file: path="/home/{{ host_user }}/app" state=directory
 
 - name: Clone node app repository
   git:
-    repo: https://github.com/andela-oadelemoni/doc-cache.git
-    dest: "/home/{{ bitnami_host_name }}/apps/doc-cache"
+    repo: "{{ node_app_repo }}"
+    dest: "/home/{{ host_user }}/app"
 
 - name: Install node js packages
-  npm: path="/home/{{ bitnami_host_name }}/apps/doc-cache"
-
-- name: Create env file
-  file: path="/home/{{ bitnami_host_name }}/apps/doc-cache/.env" state=touch
-
-- name: Add env variables
-  template: src=env.j2 dest="/home/{{ bitnami_host_name }}/apps/doc-cache/.env"
+  npm: path="/home/{{ host_user }}/app"
 
 - name: Install Forever
   npm: name=forever global=yes
@@ -22,4 +16,4 @@
 - name: Launch application continuously
   command: forever start server.js
   args:
-    chdir: "/home/{{ bitnami_host_name }}/apps/doc-cache/"
+    chdir: "/home/{{ host_user }}/app"

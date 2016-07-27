@@ -1,15 +1,15 @@
 ---
 host_user: ubuntu
-bitnami_host_name: bitnami
 root_file_system: /dev/sda1
 nagios_host_name: nagioshost
 nagios_host_description: Host to be monitored by nagios
 
 instance_type: t2.micro
-mean_ec2_image: ami-b1f23ed1
 ubuntu_ec2_image: ami-d732f0b7
 ec2_region: us-west-2
 availability_zone: us-west-2a
 cloudformation_stack_name: EC2
 cloudformation_template: roles/ec2/templates/cloudformation.json
 key_pair_name: cosy-devops-uswest2
+
+node_app_repo: https://github.com/andela-oadelemoni/doc-cache.git
