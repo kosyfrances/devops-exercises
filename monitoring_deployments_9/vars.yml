@@ -14,3 +14,5 @@ key_pair_name: cosy-devops-uswest2
 
 node_app_repo: https://github.com/andela-oadelemoni/doc-cache.git
 port: 5000
+app_folder: app
+node_app_name: doc-cache

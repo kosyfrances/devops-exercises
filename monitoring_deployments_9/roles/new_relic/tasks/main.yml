@@ -1,0 +1,11 @@
+- name: Install newrelic
+  npm: name=newrelic path="/home/{{ host_user }}/{{ app_folder }}"
+  tags:
+    - newrelic_install
+
+- name: Edit newrelic file
+  template:
+    src: newrelic.js.j2
+    dest: "/home/{{ host_user }}/{{ app_folder }}/node_modules/newrelic/newrelic.js"
+  tags:
+    - newrelic_file
