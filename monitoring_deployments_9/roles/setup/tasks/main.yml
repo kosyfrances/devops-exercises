@@ -1,0 +1,30 @@
+---
+- name: Add MongoDB key to our system list of trusted keys
+  apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=7F0CEB10 state=present
+  tags:
+    - setup
+
+- name: Add MongoDB repo sources
+  apt_repository: repo='deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' state=present
+  tags:
+    - setup
+    
+- name: Add apt key for nodesource
+  apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+  tags:
+    - setup
+
+- name: add repo for nodesource
+  apt_repository: repo='deb https://deb.nodesource.com/node_0.10 {{ ansible_distribution_release }} main' state=present
+  tags:
+    - setup
+
+- name: Update apt cache
+  apt: update_cache=yes
+  tags:
+    - setup
+
+- name: Update OS
+  apt: upgrade=dist force=yes
+  tags:
+    - setup
