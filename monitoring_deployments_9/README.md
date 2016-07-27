@@ -51,6 +51,12 @@ Outputs
 * Run `ansible-playbook playbook.nagios_server.yml -i prod_inventory.ini` to configure nagios to monitor the host server.
 * Visit Nagios server on `server_ip_address/nagios`, authenticating with `nagiosadmin` as username and your `nagiosadmin_user_password` in _secret_vars.yml_ file.
 
+### Set up new relic on host
+* Create an account on New Relic
+* Replace `newrelic_license_key` value with the your license key in `secret_vars.yml` file
+* Run `ansible-playbook playbook.newrelic.yml -i prod_inventory.ini` to install new relic agent on the host.
+* Add `require('newrelic');` as the first line of your app's main module.
+* Within a few minutes after installation, you will begin to see data for your app in your New Relic account: From the New Relic menu bar, select APM > Applications > (selected app) > Overview.
 
 # Testing locally
 
@@ -65,3 +71,6 @@ Outputs
 ### Set up nagios server
 * Run `cucumber nagios_server_install.feature` to set up the server to monitor the host.
  * Visit Nagios server on `server_ip_address/nagios`, authenticating with `nagiosadmin` as username and your `nagiosadmin_user_password` in _secret_vars.yml_ file.
+
+### Set up new relic on host
+* Run `cucumber features/new_relic_setup.feature` to install new relic agent on the host.
