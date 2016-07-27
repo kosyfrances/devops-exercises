@@ -13,3 +13,4 @@ cloudformation_template: roles/ec2/templates/cloudformation.json
 key_pair_name: cosy-devops-uswest2
 
 node_app_repo: https://github.com/andela-oadelemoni/doc-cache.git
+port: 5000

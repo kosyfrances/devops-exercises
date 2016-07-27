@@ -28,7 +28,7 @@ define service{
         use                             local-service
         host_name                       {{ nagios_host_name }}
         service_description             HTTP
-        check_command                   check_http
+        check_command                   check_http! -p {{ port }}
         notifications_enabled           0
 }
 
