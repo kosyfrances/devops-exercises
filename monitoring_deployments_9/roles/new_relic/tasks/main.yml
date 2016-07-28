@@ -3,9 +3,14 @@
   tags:
     - newrelic_install
 
-- name: Edit newrelic file
+- name: Create newrelic config file
+  file: path=/home/{{ host_user }}/{{ app_folder }}/newrelic.js state=touch
+  tags:
+    - newrelic_file
+
+- name: Copy newrelic file
   template:
     src: newrelic.js.j2
-    dest: "/home/{{ host_user }}/{{ app_folder }}/node_modules/newrelic/newrelic.js"
+    dest: "/home/{{ host_user }}/{{ app_folder }}/newrelic.js"
   tags:
     - newrelic_file
