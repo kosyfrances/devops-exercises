@@ -1,0 +1,15 @@
+---
+- name: Check if automysqlbackup is installed
+  command:  bash -c "dpkg --get-selections | grep automysqlbackup"
+  register: automysqlbackup_installed
+
+- name: Install automysqlbackup
+  apt: name=automysqlbackup state=present
+  when: automysqlbackup_installed | failed
+  tags:
+    - install_automysqlbackup
+
+- name: Run backup command
+  command: automysqlbackup
+  tags:
+    - backup_cmd
