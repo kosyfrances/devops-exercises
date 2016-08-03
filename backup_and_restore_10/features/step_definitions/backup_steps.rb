@@ -21,3 +21,15 @@ When(/^I run backup command$/) do
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
+
+Then(/^backup folders should exist$/) do
+  output, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'ls /var/lib/automysqlbackup/'"
+
+  output.split.each do |folder|
+    _, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'test -d /var/lib/automysqlbackup/#{folder}'"
+
+    expect(status.success?).to eq(true)
+  end
+
+  expect(status.success?).to eq(true)
+end

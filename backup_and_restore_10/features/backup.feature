@@ -10,3 +10,4 @@ Feature: Backup mysql database
   Scenario: Run backup command
     When I run backup command
     Then it should be successful
+    And backup folders should exist

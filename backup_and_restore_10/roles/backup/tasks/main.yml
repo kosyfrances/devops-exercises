@@ -1,6 +1,7 @@
 ---
 - name: Check if automysqlbackup is installed
   command:  bash -c "dpkg --get-selections | grep automysqlbackup"
+  ignore_errors: True
   register: automysqlbackup_installed
 
 - name: Install automysqlbackup
