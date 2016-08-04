@@ -41,19 +41,25 @@ And(/^backup folders should exist$/) do
 end
 
 When(/^I create test database$/) do
-  cmd = "ansible-playbook -i local_inventory.ini playbook.verify_backup.yml --tags 'test_db'"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.backup.yml --tags 'test_db'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I load latest database backup to test database$/) do
-  cmd = "ansible-playbook -i local_inventory.ini playbook.verify_backup.yml --tags 'import_backup'"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.backup.yml --tags 'import_backup'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
 When(/^I compare database backup to match$/) do
-  cmd = "ansible-playbook -i local_inventory.ini playbook.verify_backup.yml --tags 'compare_backup' -vvv"
+  cmd = "ansible-playbook -i local_inventory.ini playbook.backup.yml --tags 'compare_backup'"
+
+  _, _, @status = Open3.capture3 "#{cmd}"
+end
+
+When(/^I upload backup to S3$/) do
+  cmd = "ansible-playbook -i local_inventory.ini playbook.backup.yml --tags 'upload_backup'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end

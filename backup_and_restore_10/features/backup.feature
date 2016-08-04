@@ -24,3 +24,7 @@ Feature: Backup mysql database
   Scenario: Compare database backup
     When I compare database backup to match
     Then it should be successful
+
+  Scenario: Upload database backup to S3
+    When I upload backup to S3
+    Then it should be successful

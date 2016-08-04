@@ -3,3 +3,4 @@
 host_user: vagrant
 main_database_name: events
 test_backup_db: my_test_db
+s3_bucket: kosy_backup

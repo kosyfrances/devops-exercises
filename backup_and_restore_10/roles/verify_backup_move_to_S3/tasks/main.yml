@@ -30,6 +30,13 @@
   tags:
     - compare_backup
 
-- debug: var=backup_compare
+- name: Upload backup to S3 bucket
+  s3:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    bucket: "{{ s3_bucket }}"
+    object: "{{ db_dump_file.stdout }}"
+    src: /var/lib/automysqlbackup/daily/{{ main_database_name }}_backup_/{{ db_dump_file.stdout }}
+    mode: put
   tags:
-    - compare_backup
+    - upload_backup

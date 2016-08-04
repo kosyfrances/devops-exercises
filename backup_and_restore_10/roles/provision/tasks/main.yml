@@ -2,6 +2,12 @@
 - name: Update apt cache
   apt: update_cache=yes
 
+- name: Install python-pip
+  apt: name=python-pip state=present
+
+- name: Install boto
+  pip: name=boto state=present
+
 - name: Install python-mysqldb
   apt: name=python-mysqldb state=present
 

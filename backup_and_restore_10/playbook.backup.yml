@@ -5,5 +5,7 @@
   become_method: sudo
   vars_files:
     - vars.yml
+    - secret_vars.yml
   roles:
     - backup
+    - verify_backup_move_to_S3
