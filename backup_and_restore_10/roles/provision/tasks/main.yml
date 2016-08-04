@@ -4,3 +4,6 @@
 
 - name: Install python-mysqldb
   apt: name=python-mysqldb state=present
+
+- name: Install mysql-utilities
+  apt: name=mysql-utilities state=present

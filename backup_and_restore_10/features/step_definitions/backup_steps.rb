@@ -52,6 +52,8 @@ When(/^I load latest database backup to test database$/) do
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
-And(/^backup data in test database should almost match data in main database$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+When(/^I compare database backup to match$/) do
+  cmd = "ansible-playbook -i local_inventory.ini playbook.verify_backup.yml --tags 'compare_backup' -vvv"
+
+  _, _, @status = Open3.capture3 "#{cmd}"
 end

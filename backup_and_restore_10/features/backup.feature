@@ -20,4 +20,7 @@ Feature: Backup mysql database
   Scenario: Get latest database backup and load it
     When I load latest database backup to test database
     Then it should be successful
-    And backup data in test database should almost match data in main database
+
+  Scenario: Compare database backup
+    When I compare database backup to match
+    Then it should be successful

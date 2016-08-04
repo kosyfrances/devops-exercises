@@ -1,4 +1,5 @@
 ---
 
 host_user: vagrant
-backedup_database_name: events
+main_database_name: events
+test_backup_db: my_test_db

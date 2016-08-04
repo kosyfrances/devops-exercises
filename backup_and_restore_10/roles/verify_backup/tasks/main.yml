@@ -1,7 +1,7 @@
 ---
 - name: Create test database
   mysql_db:
-    name: test_backup_db
+    name: "{{ test_backup_db }}"
     state: present
     login_user: root
     login_password: "{{ mysql_password }}"
@@ -9,17 +9,27 @@
     - test_db
 
 - name: Get latest database backup file
-  shell: ls /var/lib/automysqlbackup/daily/{{ backedup_database_name }}/ | sort -n -t _ -k 2 | tail -1
+  shell: ls /var/lib/automysqlbackup/daily/{{ main_database_name }}/ | sort -n -t _ -k 2 | tail -1
   register: db_dump_file
   tags:
     - import_backup
 
 - name: Import backup file to test database
   mysql_db:
-    name: test_backup_db
+    name: "{{ test_backup_db }}"
     state: import
-    target: /var/lib/automysqlbackup/daily/{{ backedup_database_name }}/{{ db_dump_file.stdout }}
+    target: /var/lib/automysqlbackup/daily/{{ main_database_name }}/{{ db_dump_file.stdout }}
     login_user: root
     login_password: "{{ mysql_password }}"
   tags:
     - import_backup
+
+- name: Compare backup
+  command:  mysqldbcompare --server1=root:{{ mysql_password }}@localhost {{ main_database_name }}:{{ test_backup_db }} --run-all-tests
+  register: backup_compare
+  tags:
+    - compare_backup
+
+- debug: var=backup_compare
+  tags:
+    - compare_backup

@@ -12,6 +12,17 @@
   tags:
     - install_automysqlbackup
 
+# Change the default CREATE_DATABASE option to NO so the backup file can be used in any database
+- name: Edit automysqlbackup configuration
+  lineinfile:
+    dest: /etc/default/automysqlbackup
+    state: present
+    regexp: "^CREATE_DATABASE=yes$"
+    line: "CREATE_DATABASE=no"
+    backrefs: yes
+  tags:
+    - install_automysqlbackup
+
 # Ubuntu installs a cron script with this program that will run it every day.
 # It will organize the files to the appropriate directory.
 - name: Run backup command
