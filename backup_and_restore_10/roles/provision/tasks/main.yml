@@ -1,0 +1,6 @@
+---
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Install python-mysqldb
+  apt: name=python-mysqldb state=present

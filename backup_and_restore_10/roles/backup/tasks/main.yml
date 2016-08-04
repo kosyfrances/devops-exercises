@@ -3,6 +3,8 @@
   command:  bash -c "dpkg --get-selections | grep automysqlbackup"
   ignore_errors: True
   register: automysqlbackup_installed
+  tags:
+    - install_automysqlbackup
 
 - name: Install automysqlbackup
   apt: name=automysqlbackup state=present
@@ -10,7 +12,9 @@
   tags:
     - install_automysqlbackup
 
+# Ubuntu installs a cron script with this program that will run it every day.
+# It will organize the files to the appropriate directory.
 - name: Run backup command
-  command: automysqlbackup
+  command: sudo automysqlbackup
   tags:
     - backup_cmd
