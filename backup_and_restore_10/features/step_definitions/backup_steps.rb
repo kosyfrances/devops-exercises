@@ -40,26 +40,16 @@ And(/^backup folders should exist$/) do
   expect(status.success?).to eq(true)
 end
 
-When(/^I create test database$/) do
-  cmd = "ansible-playbook -i local_inventory.ini playbook.backup.yml --tags 'test_db'"
+When(/^I copy backup script to server$/) do
+   cmd = "ansible-playbook -i local_inventory.ini playbook.backup.yml --tags 'copy_backup_script'"
 
   _, _, @status = Open3.capture3 "#{cmd}"
 end
 
-When(/^I load latest database backup to test database$/) do
-  cmd = "ansible-playbook -i local_inventory.ini playbook.backup.yml --tags 'import_backup'"
-
-  _, _, @status = Open3.capture3 "#{cmd}"
+Then(/^backup script should exist in server$/) do
+  _, _, status = Open3.capture3 "unset RUBYLIB; vagrant ssh -c 'test -f /etc/automysqlbackup/backup.sh'"
 end
 
-When(/^I compare database backup to match$/) do
-  cmd = "ansible-playbook -i local_inventory.ini playbook.backup.yml --tags 'compare_backup'"
-
-  _, _, @status = Open3.capture3 "#{cmd}"
-end
-
-When(/^I upload backup to S3$/) do
-  cmd = "ansible-playbook -i local_inventory.ini playbook.backup.yml --tags 'upload_backup'"
-
-  _, _, @status = Open3.capture3 "#{cmd}"
+When(/^I execute cron task$/) do
+  pending # Write code here that turns the phrase above into concrete actions
 end

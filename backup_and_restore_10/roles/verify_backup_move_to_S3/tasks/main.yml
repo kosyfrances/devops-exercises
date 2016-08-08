@@ -1,42 +1,14 @@
 ---
-- name: Create test database
-  mysql_db:
-    name: "{{ test_backup_db }}"
-    state: present
-    login_user: root
-    login_password: "{{ mysql_password }}"
-  tags:
-    - test_db
 
-- name: Get latest database backup file
-  shell: ls /var/lib/automysqlbackup/daily/{{ main_database_name }}/ | sort -n -t _ -k 2 | tail -1
-  register: db_dump_file
+- name: Copy backup script to server
+  template: src=backup.sh.j2 dest=/etc/automysqlbackup/backup.sh mode=0755
   tags:
-    - import_backup
+    - copy_backup_script
 
-- name: Import backup file to test database
-  mysql_db:
-    name: "{{ test_backup_db }}"
-    state: import
-    target: /var/lib/automysqlbackup/daily/{{ main_database_name }}/{{ db_dump_file.stdout }}
-    login_user: root
-    login_password: "{{ mysql_password }}"
+- name: Cron job to verify backup and upload to S3
+  cron:
+    name: "verify automysqlbackup and copy to S3"
+    special_time: daily
+    job: "/etc/automysqlbackup/backup.sh"
   tags:
-    - import_backup
-
-- name: Compare backup
-  command:  mysqldbcompare --server1=root:{{ mysql_password }}@localhost {{ main_database_name }}:{{ test_backup_db }} --run-all-tests
-  register: backup_compare
-  tags:
-    - compare_backup
-
-- name: Upload backup to S3 bucket
-  s3:
-    aws_access_key: "{{ aws_access_key }}"
-    aws_secret_key: "{{ aws_secret_key }}"
-    bucket: "{{ s3_bucket }}"
-    object: "{{ db_dump_file.stdout }}"
-    src: /var/lib/automysqlbackup/daily/{{ main_database_name }}_backup_/{{ db_dump_file.stdout }}
-    mode: put
-  tags:
-    - upload_backup
+    - run_cron

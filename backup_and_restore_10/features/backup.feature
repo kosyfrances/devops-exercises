@@ -13,18 +13,11 @@ Feature: Backup mysql database
     Then it should be successful
     And backup folders should exist
 
-  Scenario: Create test database
-    When I create test database
+  Scenario: Copy backup script to server
+    When I copy backup script to server
     Then it should be successful
+    And backup script should exist in server
 
-  Scenario: Get latest database backup and load it
-    When I load latest database backup to test database
-    Then it should be successful
-
-  Scenario: Compare database backup
-    When I compare database backup to match
-    Then it should be successful
-
-  Scenario: Upload database backup to S3
-    When I upload backup to S3
+  Scenario: Execute cron task
+    When I execute cron task
     Then it should be successful

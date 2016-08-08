@@ -1,0 +1,38 @@
+MYSQL_CMD="mysql -u root -p{{ mysql_password }}"
+
+DBEXISTS="sudo test -d /var/lib/mysql/{{ test_backup_db }}"
+
+# Create test database if it does not exist
+if ! $DBEXISTS; then
+    echo "create database {{ test_backup_db }}" | $MYSQL_CMD
+fi
+
+DB_BACKUP_DIR="/var/lib/automysqlbackup/daily/{{ main_database_name }}"
+
+cd $DB_BACKUP_DIR
+
+# Get latest database backup file
+LATEST_DB_BACKUP=$(ls | sort -n -t _ -k 2 | tail -1)
+
+# Extract database backup file
+sudo gunzip $LATEST_DB_BACKUP
+
+# Get latest database backup file that was just uncompressed
+LATEST_DB_BACKUP=$(ls | sort -n -t _ -k 2 | tail -1)
+
+# Import backup file to test database
+$MYSQL_CMD {{ test_backup_db }} < $LATEST_DB_BACKUP
+
+# Compare backup
+BACKUP_COMPARE="mysqldbcompare --server1=root:{{ mysql_password }}@localhost {{ main_database_name }}:{{ test_backup_db }} --run-all-tests"
+
+# Compress the latest database backup file that was uncompressed
+sudo gzip $LATEST_DB_BACKUP
+
+# Get latest database backup file uncompressed
+LATEST_DB_BACKUP=$(ls | sort -n -t _ -k 2 | tail -1)
+
+# Move backup to S3 if the previous command was successful
+if $BACKUP_COMPARE; then
+    aws s3 cp $DB_BACKUP_DIR/$LATEST_DB_BACKUP s3://{{ s3_bucket }}/
+fi
