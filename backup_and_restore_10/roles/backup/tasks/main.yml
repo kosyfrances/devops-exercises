@@ -26,6 +26,6 @@
 # Ubuntu installs a cron script with this program that will run it every day.
 # It will organize the files to the appropriate directory.
 - name: Run backup command
-  command: sudo automysqlbackup
+  command: automysqlbackup
   tags:
     - backup_cmd
