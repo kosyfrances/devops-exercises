@@ -1,7 +1,7 @@
 ---
 
 - name: Copy backup script to server
-  template: src=backup.sh.j2 dest=/etc/automysqlbackup/backup.sh mode=0755
+  template: src=backup.sh.j2 dest="{{ansible_env.PWD}}/backup.sh" mode=0755
   tags:
     - copy_backup_script
 
@@ -9,6 +9,7 @@
   cron:
     name: "verify automysqlbackup and copy to S3"
     special_time: daily
-    job: "/etc/automysqlbackup/backup.sh"
+    job: "{{ansible_env.PWD}}/backup.sh"
+    state: present
   tags:
     - run_cron
