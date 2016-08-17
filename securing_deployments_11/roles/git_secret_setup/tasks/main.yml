@@ -1,0 +1,15 @@
+---
+- name: Clone git-secret repository
+  git:
+    repo: https://github.com/awslabs/git-secrets.git
+    clone: yes
+    dest: "{{ ansible_env.PWD}}/git-secrets"
+  tags:
+    - install_git_secret
+
+- name: Install git-secret
+  command: make install
+  args:
+    chdir: "{{ ansible_env.PWD}}/git-secrets"
+  tags:
+    - install_git_secret
