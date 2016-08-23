@@ -13,3 +13,11 @@
     chdir: "{{ ansible_env.PWD}}/git-secrets"
   tags:
     - install_git_secret
+
+- name: Copy script to setup hook on server
+  template:
+    src: run_git_secret_hook.sh.j2
+    dest: "{{ ansible_env.PWD}}/run_git_secret_hook.sh"
+    mode: 0755
+  tags:
+    - copy_hook_script
