@@ -11,3 +11,23 @@ An exercise that covers the following operations:
   - Defining firewall rules to control access to the machine
   - Logging all connections to deployed machines
   - Securing data transfer using SSL
+
+### System Requirements
+* Python
+* Pip
+* Ansible > 2.0
+* AWS CLI (installed in virtual machine or remote server)
+* Boto
+* Ruby
+* Cucumber
+* Virtual box (to test locally)
+
+
+# Testing locally
+
+### Setup
+* Run `vagrant up`. This will bring up a virtual machine and also provision it.
+* Update the variables in _vars.yml_ file with yours. Note that _host_user_ should be changed to `vagrant` and not `ubuntu` for testing locally.
+
+### Run tests
+* Run cucumber features/secure.feature to run tests and set up hooks to scan for secure credentials/token before code is checked in to a repo in the virtual machine.
