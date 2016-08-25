@@ -1,4 +1,4 @@
-Feature: Secure credentials
+Feature: Set up hooks to scan for secure credentials/token before code is checked in to a repo
 
   Background:
     Given I have a running server

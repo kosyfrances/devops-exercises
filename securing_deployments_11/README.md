@@ -30,4 +30,4 @@ An exercise that covers the following operations:
 * Update the variables in _vars.yml_ file with yours. Note that _host_user_ should be changed to `vagrant` and not `ubuntu` for testing locally.
 
 ### Run tests
-* Run cucumber features/secure.feature to run tests and set up hooks to scan for secure credentials/token before code is checked in to a repo in the virtual machine.
+* Run cucumber features/git_hook_setup_steps.feature to run tests and set up hooks to scan for secure credentials/token before code is checked in to a repo in the virtual machine.
