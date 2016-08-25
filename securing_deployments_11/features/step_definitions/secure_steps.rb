@@ -40,3 +40,33 @@ Then(/^script should exist$/) do
 
   expect(status.success?).to eq(true)
 end
+
+When(/^I create a test repo$/) do
+  _, _, status = Open3.capture3 "vagrant ssh -c 'mkdir testrepo && touch testrepo/testfile.txt && git init testrepo'"
+
+  expect(status.success?).to eq(true)
+end
+
+And(/^run script against test repo$/) do
+  _, _, status = Open3.capture3 "vagrant ssh -c './run_git_secret_hook.sh testrepo/'"
+
+  expect(status.success?).to eq(true)
+end
+
+And(/^I add aws secret to the repo$/) do
+  _, _, status = Open3.capture3 "vagrant ssh -c 'echo AWS Secret Access Key: random_Secret >> testrepo/testfile.txt'"
+
+  expect(status.success?).to eq(true)
+end
+
+Then(/^aws secret should not be committed$/) do
+  _, _, status = Open3.capture3 "vagrant ssh -c 'cd testrepo && git add . && git commit -m \"Test commit\"'"
+
+  expect(status.success?).to eq(false)
+end
+
+And(/^test repo should be deleted$/) do
+  _, _, status = Open3.capture3 "vagrant ssh -c 'rm -rf testrepo/'"
+
+  expect(status.success?).to eq(true)
+end

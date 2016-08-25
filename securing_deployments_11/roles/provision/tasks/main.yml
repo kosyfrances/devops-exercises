@@ -4,3 +4,11 @@
 
 - name: Install git
   apt: name=git state=present
+
+- name: Install unzip
+  apt: name=unzip state=present
+
+- name: Copy fake aws credentials
+  copy:
+    src: files/credentials
+    dest: "{{ ansible_env.PWD}}/.aws/credentials"

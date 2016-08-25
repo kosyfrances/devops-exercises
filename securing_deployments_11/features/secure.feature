@@ -13,3 +13,10 @@ Feature: Secure credentials
     When I copy script to setup hook on server
     Then it should be successful
     And script should exist
+
+  Scenario: Test that setup hook script exits with 0
+    When I create a test repo
+    And run script against test repo
+    And I add aws secret to the repo
+    Then aws secret should not be committed
+    And test repo should be deleted
