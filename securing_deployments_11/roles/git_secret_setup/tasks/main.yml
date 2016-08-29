@@ -3,21 +3,21 @@
   git:
     repo: https://github.com/awslabs/git-secrets.git
     clone: yes
-    dest: "{{ ansible_env.PWD}}/git-secrets"
+    dest: "{{ ansible_env.PWD }}/git-secrets"
   tags:
     - install_git_secret
 
 - name: Install git-secret
   command: make install
   args:
-    chdir: "{{ ansible_env.PWD}}/git-secrets"
+    chdir: "{{ ansible_env.PWD }}/git-secrets"
   tags:
     - install_git_secret
 
 - name: Copy script to setup hook on server
   copy:
     src: files/run_git_secret_hook.sh
-    dest: "{{ ansible_env.PWD}}/run_git_secret_hook.sh"
+    dest: "{{ ansible_env.PWD }}/run_git_secret_hook.sh"
     mode: 0755
   tags:
     - copy_hook_script

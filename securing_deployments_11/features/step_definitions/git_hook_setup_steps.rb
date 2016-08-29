@@ -22,11 +22,11 @@ Then(/^it should be successful$/) do
   expect(@status.success?).to eq(true)
 end
 
-Then(/^git\-secrets command should be available$/) do
-  output, _, status = Open3.capture3 "vagrant ssh -c 'type git-secrets'"
+Then(/^([^"]*) command should be available$/) do |package|
+  output, _, status = Open3.capture3 "vagrant ssh -c 'type #{package}'"
 
   expect(status.success?).to eq(true)
-  expect(output).to match("git-secrets is /usr/local/bin/git-secrets")
+  expect(output).to match("#{package} is /usr/local/bin/#{package}")
 end
 
 When(/^I copy script to setup hook on server$/) do

@@ -11,4 +11,4 @@
 - name: Copy fake aws credentials
   copy:
     src: files/credentials
-    dest: "{{ ansible_env.PWD}}/.aws/credentials"
+    dest: "{{ ansible_env.PWD }}/.aws/credentials"

@@ -1,0 +1,17 @@
+---
+- name: Download precompiled Vault binary
+  get_url:
+    url: https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip
+    dest: /usr/local/bin
+  register: zipped_vault
+  tags:
+    - install_vault
+
+- name: Unzip Vault binary
+  unarchive:
+    src: "{{ zipped_vault.dest }}"
+    dest: /usr/local/bin
+    copy: no
+  when: zipped_vault | changed
+  tags:
+    - install_vault
