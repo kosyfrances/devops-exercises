@@ -2,3 +2,4 @@
 
 host_user: vagrant
 vault_version: 0.6.1
+consul_version: 0.6.4

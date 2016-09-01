@@ -1,17 +1,23 @@
 ---
-- name: Download precompiled Vault binary
+- name: Download precompiled Vault binary and Consul
   get_url:
-    url: https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip
+    url: "{{ item }}"
     dest: /usr/local/bin
-  register: zipped_vault
+  with_items:
+    - https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip
+    - https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip
+  register: zipped_file
   tags:
-    - install_vault
+    - install_vault_and_consul
 
-- name: Unzip Vault binary
+### TO DO::: Figure out how to make this Unzip part indempotent
+- name: Unzip Vault binary and Consul
   unarchive:
-    src: "{{ zipped_vault.dest }}"
+    src: "{{ item.dest }}"
     dest: /usr/local/bin
     copy: no
-  when: zipped_vault | changed
+  with_items:
+    - "{{ zipped_file.results }}"
+  when: zipped_file | changed
   tags:
-    - install_vault
+    - install_vault_and_consul
